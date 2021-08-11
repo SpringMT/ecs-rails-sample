@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "V1::Sessions", type: :request do
   include_context "request_spec_helper"
 
-  let(:user_id) { 123 }
+  let(:user_id) { "123" }
   describe "GET /v1/sessions/:id" do
     context "正常系" do
       let(:session) { create(:session, :active, user_id: user_id) }
@@ -11,7 +11,7 @@ RSpec.describe "V1::Sessions", type: :request do
         get v1_session_path session.id, headers: client_headers
         expect(response).to have_http_status(200)
         response_data = JSON.parse(response.body, symbolize_names: true)
-        expect(response_data).to eq({ user_id: session.user_id, session_id: session.id })
+        expect(response_data).to eq({ user_id: user_id, session_id: session.id })
       end
     end
   end
