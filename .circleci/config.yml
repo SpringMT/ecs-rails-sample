@@ -19,6 +19,7 @@ jobs:
       - run:
           command: bundle -j4 --path=vendor/bundle
       - run:
+          name: rubocop
           command: bundle exec rubocop
       - run:
           command: bundle exec rake db:create
