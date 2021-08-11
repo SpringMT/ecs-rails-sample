@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "V1::Sessions", type: :request do
   include_context "request_spec_helper"
 
-  let(:user_id) { 123 }
+  let(:user_id) { "123" }
   describe "GET /v1/sessions/:id" do
     context "正常系" do
       let(:session) { create(:session, :active, user_id: user_id) }
