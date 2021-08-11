@@ -51,7 +51,7 @@ Rails.application.configure do
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
-  endpoint    = "my-cluster-name.abc123.cfg.use1.cache.amazonaws.com:11211"
+  endpoint    = "#{ENV["ECS_RAILS_SAMPLE_ELASTICACHE_MEMCACHED_ENDPOINT"]}:11211"
   elasticache = Dalli::ElastiCache.new(endpoint)
   config.cache_store = :dalli_store, elasticache.servers, { compress: true }
 
