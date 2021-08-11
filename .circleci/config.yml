@@ -4,6 +4,7 @@ defaults: &defaults
   environment:
     CIRCLE_ARTIFACTS: /tmp/circleci-aritifacts
     CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+  resource_class: small
   docker:
     - image: springmt/amazon-linux2-ruby:2.7
       environment:
