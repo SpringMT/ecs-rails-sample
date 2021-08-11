@@ -1,0 +1,73 @@
+require: rubocop-rails
+inherit_gem:
+  onkcop:
+    - "config/rubocop.yml"
+AllCops:
+  NewCops: enable
+  Exclude:
+    - '*/log/**/*'
+    - '*/tmp/**/*'
+    - '*/vendor/**/*'
+    - 'vendor/**/*'
+    - 'bin/**/*'
+  TargetRubyVersion: 2.7
+  # uncomment if use rails cops
+  TargetRailsVersion: 6.1
+
+Naming/AccessorMethodName:
+  Enabled: false
+
+Layout/IndentationConsistency:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 200
+  Exclude:
+    - '*/spec/**/*'
+
+Layout/EmptyLinesAroundAccessModifier:
+  Enabled: false
+
+Lint/AssignmentInCondition:
+  Enabled: false
+
+Lint/SuppressedException:
+  Exclude:
+    - '*/spec/**/*'
+
+Metrics/AbcSize:
+  Max: 20
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/BlockLength:
+  Max: 100
+  Exclude:
+    - '*/spec/**/*'
+
+Metrics/ClassLength:
+  Max: 80
+
+Naming/VariableNumber:
+  Exclude:
+    - '*/spec/**/*'
+
+Style/BlockDelimiters:
+  Enabled: false
+
+Style/CaseEquality:
+  Enabled: false
+
+Style/MethodCalledOnDoEndBlock:
+  Enabled: false
+
+Style/AccessModifierDeclarations:
+  EnforcedStyle: "inline"
+
+Rails/SaveBang:
+  Enabled: false
+
+Rails/HttpStatus:
+  Enabled: false
+
