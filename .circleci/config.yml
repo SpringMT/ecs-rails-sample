@@ -1,6 +1,9 @@
 version: 2.1
 
 defaults: &defaults
+  environment:
+    CIRCLE_ARTIFACTS: /tmp/circleci-aritifacts
+    CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
   docker:
     - image: springmt/amazon-linux2-ruby:2.7
       environment:
@@ -32,11 +35,11 @@ jobs:
       - run:
           command: RAILS_ENV=test bundle exec ridgepole -c config/database.yml -f db/Schemafile -E test --apply
       - run:
-          command: BUNDLE_PATH=vendor/bundle BUNDLE_GEMFILE=Gemfile bundle exec rspec --format RspecJunitFormatter -o /tmp/test-results/rspec.xml --format progress
+          command: BUNDLE_PATH=vendor/bundle BUNDLE_GEMFILE=Gemfile bundle exec rspec --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec.xml --format progress
       - store_test_results:
-          path: /tmp/test-results
+          path:  /tmp/circleci-test-results
       - store_artifacts:
-          path: /tmp/test-results
+          path: /tmp/circleci-aritifacts
 
 workflows:
   version: 2
