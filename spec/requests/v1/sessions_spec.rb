@@ -11,7 +11,7 @@ RSpec.describe "V1::Sessions", type: :request do
         get v1_session_path session.id, headers: client_headers
         expect(response).to have_http_status(200)
         response_data = JSON.parse(response.body, symbolize_names: true)
-        expect(response_data).to eq({ user_id: session.user_id, session_id: session.id })
+        expect(response_data).to eq({ user_id: 111, session_id: session.id })
       end
     end
   end

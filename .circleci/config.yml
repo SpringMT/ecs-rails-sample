@@ -11,13 +11,19 @@ defaults: &defaults
         MYSQL_ALLOW_EMPTY_PASSWORD: yes
 
 jobs:
-
   test:
     <<: *defaults
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - ecs-rails-sample-{{ checksum "Gemfile.lock" }}
       - run:
           command: bundle -j4 --path=vendor/bundle
+      - save_cache:
+          key: /ecs-rails-sample-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
       - run:
           name: rubocop
           command: bundle exec rubocop
@@ -27,6 +33,10 @@ jobs:
           command: RAILS_ENV=test bundle exec ridgepole -c config/database.yml -f db/Schemafile -E test --apply
       - run:
           command: BUNDLE_PATH=vendor/bundle BUNDLE_GEMFILE=Gemfile bundle exec rspec --format RspecJunitFormatter -o /tmp/test-results/rspec.xml --format progress
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
 
 workflows:
   version: 2
