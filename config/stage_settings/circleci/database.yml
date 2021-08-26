@@ -23,5 +23,4 @@ default: &default
 test:
   <<: *default
   database: ecs_rails_sample_test
-  host: localhost
 
