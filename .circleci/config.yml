@@ -34,7 +34,7 @@ jobs:
           name: rubocop
           command: bundle exec rubocop
       - run:
-          command: RAILS_ENV=test bundle exec ridgepole -c config/database.yml -f db/Schemafile -E test --apply
+          command: RAILS_ENV=test bundle exec ridgepole -c config/stage_settings/circleci/database.yml -f db/Schemafile -E test --apply
       - run:
           command: BUNDLE_PATH=vendor/bundle BUNDLE_GEMFILE=Gemfile bundle exec rspec --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec.xml --format progress
       - store_test_results:
