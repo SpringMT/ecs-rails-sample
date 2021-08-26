@@ -9,16 +9,23 @@ defaults: &defaults
     - image: springmt/amazon-linux2-ruby:2.7
       environment:
         RAILS_ENV: test
+        APP_STAGE: circleci
     - image: circleci/mysql:5.7
       environment:
-        MYSQL_ROOT_PASSWORD: ''
-        MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        MYSQL_USER: user
+        MYSQL_PASSWORD: password
+        MYSQL_DATABASE: ecs_rails_sample_test
 
 jobs:
   test:
     <<: *defaults
     steps:
       - checkout
+      - run:
+          name: install dockerize
+          command: yum install wget -y && wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.3.0
       - restore_cache:
           keys:
             - ecs-rails-sample-{{ checksum "Gemfile.lock" }}
@@ -32,9 +39,10 @@ jobs:
           name: rubocop
           command: bundle exec rubocop
       - run:
-          command: bundle exec rake db:create
+          name: Wait for db
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
       - run:
-          command: RAILS_ENV=test bundle exec ridgepole -c config/database.yml -f db/Schemafile -E test --apply
+          command: RAILS_ENV=test bundle exec ridgepole -c config/stage_settings/circleci/database.yml -f db/Schemafile -E test --apply
       - run:
           command: BUNDLE_PATH=vendor/bundle BUNDLE_GEMFILE=Gemfile bundle exec rspec --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec.xml --format progress
       - store_test_results:
