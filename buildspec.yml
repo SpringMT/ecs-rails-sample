@@ -1,19 +1,13 @@
 version: 0.2
 phases:
-  install:
-    commands:
-      - yum localinstall -y https://repo.mysql.com//mysql80-community-release-el8-1.noarch.rpm
-      - yum install -y --enablerepo=mysql80-community mysql-community-server
-      - systemctl start mysqld
-  pre_build:
-    commands:
-      - bundle -j4 --path=vendor/bundle
   build:
     commands:
-      - BUNDLE_PATH=vendor/bundle BUNDLE_GEMFILE=Gemfile bundle exec rspec --format RspecJunitFormatter -o /tmp/test-results/rspec.xml --format progress
-reports:
-  rspec_reports:
-    files:
-      - rspec.xml
-    base-directory: /tmp/test-results
-    file-format: JUNITXML
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - docker build -t $REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION .
+  post_build:
+    commands:
+      - docker push $REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION
+      - export imageTag=$CODEBUILD_RESOLVED_SOURCE_VERSION
+env:
+  exported-variables:
+    - imageTag
