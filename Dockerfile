@@ -2,8 +2,6 @@ FROM springmt/amazon-linux2-ruby:2.7
 
 ENV LANG ja_JP.UTF-8
 
-ARG SERVER_STAGE
-
 RUN mkdir /app
 
 WORKDIR /app
