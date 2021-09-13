@@ -26,7 +26,7 @@ gem "bootsnap", ">= 1.4.4", require: false
 # gem 'rack-cors'
 
 gem "action_args"
-gem "aws-sdk-rails"
+gem "aws-sdk-rails", require: false
 gem "dalli-elasticache"
 gem "ridgepole"
 gem "ulid"
