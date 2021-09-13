@@ -39,6 +39,8 @@ default: &default
 #
 production:
   <<: *default
-  database: ecs_rails_sample_production
-  username: ecs_rails_sample
-  password: <%= ENV['ECS_RAILS_SAMPLE_DATABASE_PASSWORD'] %>
+  url: <%= Rails.application.secrets.database_url %>
+  #database: ecs_rails_sample_production
+  #username: ecs_rails_sample
+  #password: <%= ENV['ECS_RAILS_SAMPLE_DATABASE_PASSWORD'] %>
+
