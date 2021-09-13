@@ -13,5 +13,5 @@ COPY . /app
 EXPOSE 3000
 
 ENV RAILS_ENV production
-CMD ["ruby", "-v"]
+CMD ["/bin/sh", "-c", "bundle exec unicorn_rails -c config/unicorn/production.rb"]
 
