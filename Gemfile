@@ -29,6 +29,7 @@ gem "bootsnap", ">= 1.4.4", require: false
 gem "action_args"
 gem "aws-sdk-rails", require: false
 gem "dalli-elasticache"
+gem "rack-health"
 gem "ridgepole"
 gem "ulid"
 
