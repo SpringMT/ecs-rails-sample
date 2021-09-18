@@ -8,13 +8,17 @@
 #
 # And be sure to use new-style password hashing:
 #   https://dev.mysql.com/doc/refman/5.7/en/password-hashing.html
-#
+
+# https://github.com/rails/rails/blob/6-1-stable/activerecord/lib/active_record/connection_adapters/abstract_mysql_adapter.rb
 default: &default
   adapter: mysql2
   encoding: utf8mb4
+  collation: utf8mb4_bin
+  advisory_locks: false
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
   password:
+  reaping_frequency: null
   host: 127.0.0.1
 
 development:
