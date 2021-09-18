@@ -1,0 +1,97 @@
+--- !ruby/object:ActiveRecord::ConnectionAdapters::SchemaCache
+columns:
+  sessions:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::MySQL::Column
+    name: id
+    sql_type_metadata: &1 !ruby/object:ActiveRecord::ConnectionAdapters::MySQL::TypeMetadata
+      delegate_dc_obj: !ruby/object:ActiveRecord::ConnectionAdapters::SqlTypeMetadata
+        sql_type: varchar(255)
+        type: :string
+        limit: 255
+        precision: 
+        scale: 
+      extra: ''
+    'null': false
+    default: 
+    default_function: 
+    collation: utf8mb4_bin
+    comment: 
+  - !ruby/object:ActiveRecord::ConnectionAdapters::MySQL::Column
+    name: user_id
+    sql_type_metadata: *1
+    'null': false
+    default: 
+    default_function: 
+    collation: utf8mb4_bin
+    comment: 
+  - !ruby/object:ActiveRecord::ConnectionAdapters::MySQL::Column
+    name: expired_at
+    sql_type_metadata: &2 !ruby/object:ActiveRecord::ConnectionAdapters::MySQL::TypeMetadata
+      delegate_dc_obj: !ruby/object:ActiveRecord::ConnectionAdapters::SqlTypeMetadata
+        sql_type: datetime
+        type: :datetime
+        limit: 
+        precision: 0
+        scale: 
+      extra: ''
+    'null': false
+    default: 
+    default_function: 
+    collation: 
+    comment: 
+  - !ruby/object:ActiveRecord::ConnectionAdapters::MySQL::Column
+    name: created_at
+    sql_type_metadata: *2
+    'null': false
+    default: 
+    default_function: 
+    collation: 
+    comment: 
+  - !ruby/object:ActiveRecord::ConnectionAdapters::MySQL::Column
+    name: updated_at
+    sql_type_metadata: *2
+    'null': false
+    default: 
+    default_function: 
+    collation: 
+    comment: 
+primary_keys:
+  sessions: id
+data_sources:
+  sessions: true
+  schema_migrations: false
+indexes:
+  sessions:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: sessions
+    name: user_id
+    unique: true
+    columns:
+    - user_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where: 
+    type: 
+    using: :btree
+    comment: 
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: sessions
+    name: expired_at
+    unique: false
+    columns:
+    - expired_at
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where: 
+    type: 
+    using: :btree
+    comment: 
+version: 0
+database_version: !ruby/object:ActiveRecord::ConnectionAdapters::AbstractAdapter::Version
+  version:
+  - 8
+  - 0
+  - 26
+  full_version_string: 8.0.26
