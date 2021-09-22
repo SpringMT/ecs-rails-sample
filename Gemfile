@@ -28,7 +28,10 @@ gem "bootsnap", ">= 1.4.4", require: false
 
 gem "action_args"
 gem "aws-sdk-rails", require: false
+gem "aws-xray-sdk", require: false
+# xray sdk ojじゃないと動かないとのこと
 gem "dalli-elasticache"
+gem "oj"
 gem "rack-health"
 gem "ridgepole"
 gem "ulid"
