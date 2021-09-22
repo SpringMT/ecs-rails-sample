@@ -1,4 +1,4 @@
-worker_processes ENV["UNICORN_PROC_NUM"].to_i.nonzero? || 4
+worker_processes ENV["UNICORN_PROC_NUM"].to_i.nonzero? || 8
 preload_app true
 
 current_path = File.expand_path("../..", __dir__)
