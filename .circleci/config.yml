@@ -70,12 +70,12 @@ jobs:
             CIRCLECI_TOKEN: $CIRCLECI_TOKEN
       - store_artifacts:
           name: Store local_exporter output files
-          path: sample/output
+          path: ci_analyzer_output
       - save_cache:
           name: Save last run store files
           key: cache-${CACHE_VERSION}-{{ .BuildNum }}
           paths:
-          - sample/.ci_analyzer
+          - .ci_analyzer
 
 workflows:
   version: 2

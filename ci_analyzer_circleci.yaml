@@ -7,7 +7,7 @@ circleci:
     github: https://api.github.com
   exporter:
     local:
-      outDir: output
+      outDir: ci_analyzer_output
       format: json
   lastRunStore:
     backend: local
