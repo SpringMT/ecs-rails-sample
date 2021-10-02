@@ -72,9 +72,9 @@ jobs:
             GIIHUB_TOKEN: $GITHUB_TOKEN
             CIRCLECI_TOKEN: $CIRCLECI_TOKEN
       - persist_to_workspace:
-        root: /tmp
-        paths:
-          - ci_analyzer_output
+          root: /tmp
+          paths:
+            - ci_analyzer_output
       - store_artifacts:
           name: Store local_exporter output files
           path: /tmp/ci_analyzer_output
@@ -82,8 +82,7 @@ jobs:
           name: Save last run store files
           key: cache-${CACHE_VERSION}-{{ .BuildNum }}
           paths:
-          - .ci_analyzer
-
+            - .ci_analyzer
   sync_s3:
     resource_class: small
     docker:
