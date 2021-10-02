@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  aws-s3: circleci/aws-s3@3.0.0
+
 defaults: &defaults
   environment:
     CIRCLE_ARTIFACTS: /tmp/circleci-aritifacts
@@ -68,6 +71,10 @@ jobs:
           environment:
             GIIHUB_TOKEN: $GITHUB_TOKEN
             CIRCLECI_TOKEN: $CIRCLECI_TOKEN
+      - aws-s3/sync:
+          from: ci_analyzer_output
+          to: s3://ci-analyzer-springmt/ecs-rails-sample/
+          overwrite: true
       - store_artifacts:
           name: Store local_exporter output files
           path: ci_analyzer_output
