@@ -71,17 +71,28 @@ jobs:
           environment:
             GIIHUB_TOKEN: $GITHUB_TOKEN
             CIRCLECI_TOKEN: $CIRCLECI_TOKEN
-      - aws-s3/sync:
-          from: ci_analyzer_output
-          to: s3://ci-analyzer-springmt/ecs-rails-sample/
+      - persist_to_workspace:
+        root: /tmp
+        paths:
+          - ci_analyzer_output
       - store_artifacts:
           name: Store local_exporter output files
-          path: ci_analyzer_output
+          path: /tmp/ci_analyzer_output
       - save_cache:
           name: Save last run store files
           key: cache-${CACHE_VERSION}-{{ .BuildNum }}
           paths:
           - .ci_analyzer
+
+  sync_s3:
+    resource_class: small
+    steps:
+      - attach_workspace:
+        at: ./
+      - aws-s3/sync:
+          from: ci_analyzer_output
+          to: s3://ci-analyzer-springmt/ecs-rails-sample/
+
 
 workflows:
   version: 2
@@ -104,4 +115,7 @@ workflows:
             branches:
               ignore:
                 - gh-pages
+      - sync_s3:
+          requires:
+            - cron-run
 
