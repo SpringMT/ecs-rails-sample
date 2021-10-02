@@ -86,6 +86,8 @@ jobs:
 
   sync_s3:
     resource_class: small
+    docker:
+      - image: 'cimg/python:3.6'
     steps:
       - attach_workspace:
         at: ./
