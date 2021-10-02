@@ -74,7 +74,6 @@ jobs:
       - aws-s3/sync:
           from: ci_analyzer_output
           to: s3://ci-analyzer-springmt/ecs-rails-sample/
-          overwrite: true
       - store_artifacts:
           name: Store local_exporter output files
           path: ci_analyzer_output
