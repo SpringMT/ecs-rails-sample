@@ -2,7 +2,7 @@
 # Save LastRun to Local file and cache with CircleCI cache
 circleci:
   repos:
-    - name: Kesin11/CIAnalyzer
+    - name: SpringMT/ecs-rails-sample
   vcsBaseUrl:
     github: https://api.github.com
   exporter:
