@@ -118,7 +118,7 @@ workflows:
               only:
                 - master
     jobs:
-      - cron-run:
+      - cron-run
       - sync_s3:
           requires:
             - cron-run
