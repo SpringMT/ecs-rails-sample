@@ -8,7 +8,7 @@ circleci:
   exporter:
     local:
       outDir: /tmp/ci_analyzer_output
-      format: json
+      format: json_lines
   lastRunStore:
     backend: local
     path: ./.ci_analyzer/circleci.json

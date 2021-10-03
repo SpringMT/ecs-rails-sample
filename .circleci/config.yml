@@ -91,9 +91,11 @@ jobs:
       - attach_workspace:
           at: ./
       - aws-s3/sync:
-          from: ci_analyzer_output
-          to: s3://ci-analyzer-springmt/ecs-rails-sample/
-
+          from: ci_analyzer_output/*test-circleci.json
+          to: s3://ci-analyzer-springmt/ecs-rails-sample/test-circleci/
+      - aws-s3/sync:
+          from: ci_analyzer_output/*workflow-circleci.json
+          to: s3://ci-analyzer-springmt/ecs-rails-sample/workflow-circleci/
 
 workflows:
   version: 2

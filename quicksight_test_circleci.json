@@ -1,0 +1,8 @@
+{
+    "fileLocations": [
+          {"URIPrefixes": ["s3://ci-analyzer-springmt/ecs-rails-sample/test-circleci/"]}
+     ],
+     "globalUploadSettings": {
+         "format": "JSON"
+    }
+}
