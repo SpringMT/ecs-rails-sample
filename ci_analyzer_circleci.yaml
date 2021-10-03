@@ -11,4 +11,4 @@ circleci:
       format: json_lines
   lastRunStore:
     backend: local
-    path: ./.ci_analyzer/circleci.json
+    path: ./.ci_analyzer-v1/circleci.json

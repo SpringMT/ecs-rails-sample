@@ -82,7 +82,7 @@ jobs:
           name: Save last run store files
           key: cache-${CACHE_VERSION}-{{ .BuildNum }}
           paths:
-            - .ci_analyzer
+            - .ci_analyzer-v1
   sync_s3:
     resource_class: small
     docker:
