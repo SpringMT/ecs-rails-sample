@@ -1,11 +1,16 @@
 version: 2.1
 
+orbs:
+  aws-s3: circleci/aws-s3@3.0.0
+
 defaults: &defaults
   environment:
     CIRCLE_ARTIFACTS: /tmp/circleci-aritifacts
     CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
   resource_class: small
   docker:
+    # https://circleci.com/docs/ja/2.0/executor-types/#using-multiple-docker-images
+    # すべてのステップが実行されるプライマリ コンテナ イメージ
     - image: springmt/amazon-linux2-ruby:2.7
       environment:
         RAILS_ENV: test
@@ -50,6 +55,48 @@ jobs:
       - store_artifacts:
           path: /tmp/circleci-aritifacts
 
+  cron-run:
+    resource_class: small
+    docker:
+      - image: ghcr.io/kesin11/ci_analyzer:v4
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore last run store files
+          keys:
+            - cache-${CACHE_VERSION}-
+      - run:
+          name: Run CIAnalyzer
+          command: ci_analyzer -c ci_analyzer_circleci.yaml
+          environment:
+            GIIHUB_TOKEN: $GITHUB_TOKEN
+            CIRCLECI_TOKEN: $CIRCLECI_TOKEN
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+            - ci_analyzer_output
+      - store_artifacts:
+          name: Store local_exporter output files
+          path: /tmp/ci_analyzer_output
+      - save_cache:
+          name: Save last run store files
+          key: cache-${CACHE_VERSION}-{{ .BuildNum }}
+          paths:
+            - .ci_analyzer-v1
+  sync_s3:
+    resource_class: small
+    docker:
+      - image: 'cimg/python:3.6'
+    steps:
+      - attach_workspace:
+          at: ./
+      - aws-s3/copy:
+          from: ci_analyzer_output/*test-circleci.json
+          to: s3://ci-analyzer-springmt/ecs-rails-sample/test-circleci/
+      - aws-s3/copy:
+          from: ci_analyzer_output/*workflow-circleci.json
+          to: s3://ci-analyzer-springmt/ecs-rails-sample/workflow-circleci/
+
 workflows:
   version: 2
   test_and_build:
@@ -61,3 +108,18 @@ workflows:
             branches:
               ignore:
                 - gh-pages
+
+  ci_analyzer:
+    triggers:
+      - schedule:
+          cron: "0 * * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - cron-run
+      - sync_s3:
+          requires:
+            - cron-run
+
