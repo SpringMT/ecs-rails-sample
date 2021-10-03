@@ -110,14 +110,15 @@ workflows:
                 - gh-pages
 
   ci_analyzer:
+    triggers:
+      - schedule:
+          cron: "0 * * * *"
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - cron-run:
-          filters:
-            tags:
-              ignore: /^v.*/
-            branches:
-              ignore:
-                - gh-pages
       - sync_s3:
           requires:
             - cron-run
