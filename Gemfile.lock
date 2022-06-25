@@ -110,7 +110,7 @@ GEM
     database_rewinder (0.9.6)
     debug_inspector (1.1.0)
     diff-lcs (1.4.4)
-    diffy (3.4.0)
+    diffy (3.4.2)
     docile (1.4.0)
     erubi (1.10.0)
     factory_bot (6.2.0)
